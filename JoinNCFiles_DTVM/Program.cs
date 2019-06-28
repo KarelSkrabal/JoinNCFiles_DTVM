@@ -8,6 +8,7 @@ namespace JoinNCFiles_DTVM
         {
             try
             {
+                //Todo - class ECsettings - singleton
                 //ziskam nastaveni,cteni z pamscl.dat
                 ECsettings ecsettings = new ECsettings();
                 //ziskam informace o spojovanych souborech
