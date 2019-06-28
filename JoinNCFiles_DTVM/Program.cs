@@ -10,7 +10,8 @@ namespace JoinNCFiles_DTVM
             {
                 //Todo - class ECsettings - singleton
                 //ziskam nastaveni,cteni z pamscl.dat
-                ECsettings ecsettings = new ECsettings();
+                
+                var ecsettings = ECsettings.Instance;
                 //ziskam informace o spojovanych souborech
                 JoinNCFiles joinFiles = new JoinNCFiles(ecsettings.NCfile);
                 //spojim serizovaci listy nastroju,ale jen tehdy je-li souboru ke spojeni vice jak 1

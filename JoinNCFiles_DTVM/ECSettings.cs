@@ -56,11 +56,14 @@ namespace JoinNCFiles_DTVM
             set { backUpFile = value; }
         }
 
-        public ECsettings()
+        private ECsettings()
         {
             this.pamsclFile = GetPamscl();
             GetDetails();
         }
+
+        private static Lazy<ECsettings> instance = new Lazy<ECsettings>(() => new ECsettings());
+        public static ECsettings Instance => instance.Value;
 
         /// <summary>
         /// Procedura pro ziskani souboru pamscl.dat ktery byl naposledy editovan.
