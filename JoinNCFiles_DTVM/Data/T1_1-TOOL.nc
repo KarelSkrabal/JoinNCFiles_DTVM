@@ -1,0 +1,2 @@
+(VERTIKALNI Nástroj : Mìøení sondou)
+(VERTIKALNI KOMB311MGL)

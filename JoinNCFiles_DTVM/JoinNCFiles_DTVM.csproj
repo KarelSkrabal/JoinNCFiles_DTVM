@@ -89,6 +89,20 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="Data\T1-TOOL.nc" />
+    <None Include="Data\T1_1-TOOL.nc" />
+    <None Include="Data\T1_1.nc" />
+    <None Include="Data\T1_2-TOOL.nc" />
+    <None Include="Data\T1_2.nc" />
+    <None Include="Data\T1_3-TOOL.nc" />
+    <None Include="Data\T1_3.nc" />
+    <None Include="Data\T1_4-TOOL.nc" />
+    <None Include="Data\T1_4.nc" />
+    <None Include="Data\T1_5-TOOL.nc" />
+    <None Include="Data\T1_5.nc" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

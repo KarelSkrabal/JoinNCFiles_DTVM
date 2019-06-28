@@ -6,6 +6,7 @@ namespace JoinNCFiles_DTVM
 {
     class ECsettings
     {
+        const string PAMSCL_FILE_NAME = "pamscl.dat";
         /// <summary>
         /// Posledni editovany pamscl.dat soubor
         /// </summary>
@@ -73,10 +74,10 @@ namespace JoinNCFiles_DTVM
         {
             const Environment.SpecialFolder LOCAL_APPLICATION_DATA = Environment.SpecialFolder.LocalApplicationData;
             string folderPath = Environment.GetFolderPath(LOCAL_APPLICATION_DATA);
-            const string PLAN_IT_SUBDIRECTORY = "Temp\\Planit";
-            string pathToPlantSubdirectory = Path.Combine(folderPath, PLAN_IT_SUBDIRECTORY);
+            //const string PLAN_IT_SUBDIRECTORY = "Temp\\Planit";
+            string pathToPlantSubdirectory = Path.Combine(folderPath, "Temp\\Planit");
             DirectoryInfo ecFolders = new DirectoryInfo(pathToPlantSubdirectory);
-            FileInfo[] ncFiles = ecFolders.GetFiles("pamscl.dat", SearchOption.AllDirectories);
+            FileInfo[] ncFiles = ecFolders.GetFiles(PAMSCL_FILE_NAME, SearchOption.AllDirectories);
             String foundFile = String.Empty;
             IOrderedEnumerable<FileInfo> fileonFosDescending = from fileInfo in ncFiles
                                                                orderby fileInfo.LastWriteTime descending
