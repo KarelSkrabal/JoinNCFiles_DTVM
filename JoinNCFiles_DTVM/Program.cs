@@ -11,7 +11,8 @@ namespace JoinNCFiles_DTVM
                 var ecsettings = ECsettings.Instance;
                 //ziskam informace o spojovanych souborech
                 var joinner = JoinFactory.createJoinner(ecsettings.post);
-                MC3000 joinFiles = new MC3000(ecsettings.NCfile);
+
+                MC3000 joinFiles = new MC3000(ecsettings.NCfile, new MC3000Settings());
                 //spojim serizovaci listy nastroju,ale jen tehdy je-li souboru ke spojeni vice jak 1
                 if (joinFiles.NCoutput.Count > 1)
                 {

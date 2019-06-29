@@ -49,7 +49,7 @@ namespace JoinNCFiles_DTVM
         /// Konstruktor s parametrem,parametr slouzi pro vytvoreni patternu pro vyhledani vsech souboru vhodnych pro spojeni
         /// </summary>
         /// <param name="str">Nazev posledniho generovaneho NC souboru nacteneho z pamscl.dat</param>
-        public MC3000(string str)
+        public MC3000(string str, BaseData settings)
         {
             //vygeneruji si nazev vysledneho souboru ve kterem budou spojene soubory
             //POZOR TADY JE TROCHU CHAOZ!!!!! MUSIM UPRAVIT POZDEJC!!!!!

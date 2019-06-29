@@ -62,10 +62,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseData.cs" />
+    <Compile Include="BaseDataReader.cs" />
     <Compile Include="ECSettings.cs" />
     <Compile Include="IJoinNCfile.cs" />
     <Compile Include="JoinFactory.cs" />
     <Compile Include="MC3000.cs" />
+    <Compile Include="MC3000SettingReader.cs" />
+    <Compile Include="MC3000Settings.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
