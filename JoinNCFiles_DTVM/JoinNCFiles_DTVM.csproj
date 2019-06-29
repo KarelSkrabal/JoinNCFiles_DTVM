@@ -63,7 +63,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ECSettings.cs" />
-    <Compile Include="JoinNCfile.cs" />
+    <Compile Include="IJoinNCfile.cs" />
+    <Compile Include="JoinFactory.cs" />
+    <Compile Include="MC3000.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

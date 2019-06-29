@@ -7,13 +7,11 @@ namespace JoinNCFiles_DTVM
         static void Main(string[] args)
         {
             try
-            {
-                //Todo - class ECsettings - singleton
-                //ziskam nastaveni,cteni z pamscl.dat
-                
+            {             
                 var ecsettings = ECsettings.Instance;
                 //ziskam informace o spojovanych souborech
-                JoinNCFiles joinFiles = new JoinNCFiles(ecsettings.NCfile);
+                var joinner = JoinFactory.createJoinner(ecsettings.post);
+                MC3000 joinFiles = new MC3000(ecsettings.NCfile);
                 //spojim serizovaci listy nastroju,ale jen tehdy je-li souboru ke spojeni vice jak 1
                 if (joinFiles.NCoutput.Count > 1)
                 {

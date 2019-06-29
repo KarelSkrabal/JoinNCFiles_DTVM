@@ -9,7 +9,7 @@ namespace JoinNCFiles_DTVM
     /// <summary>
     /// Trida pro ziskani informaci o spojovanych souborech
     /// </summary>
-    class JoinNCFiles
+    public class MC3000 : IJoinNCfile
     {
         /// <summary>
         /// Pole nazvu souboru pro spojeni,soubory musi byt ve stejne slozce, s indexem _xxx.koncovka
@@ -49,7 +49,7 @@ namespace JoinNCFiles_DTVM
         /// Konstruktor s parametrem,parametr slouzi pro vytvoreni patternu pro vyhledani vsech souboru vhodnych pro spojeni
         /// </summary>
         /// <param name="str">Nazev posledniho generovaneho NC souboru nacteneho z pamscl.dat</param>
-        public JoinNCFiles(string str)
+        public MC3000(string str)
         {
             //vygeneruji si nazev vysledneho souboru ve kterem budou spojene soubory
             //POZOR TADY JE TROCHU CHAOZ!!!!! MUSIM UPRAVIT POZDEJC!!!!!
