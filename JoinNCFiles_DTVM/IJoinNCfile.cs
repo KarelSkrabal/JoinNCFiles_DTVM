@@ -7,6 +7,6 @@ namespace JoinNCFiles_DTVM
 {
     public interface IJoinNCfile
     {
-        void Join(bool insertLine, string result, List<string> paths);
+        void Join();
     }
 }

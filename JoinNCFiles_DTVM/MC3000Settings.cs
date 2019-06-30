@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml.Serialization;
 
 namespace JoinNCFiles_DTVM
@@ -18,6 +15,12 @@ namespace JoinNCFiles_DTVM
 
     public class SETTINGROW
     {
-        public string CustomerName { get; set; }
+        public string lineNo { get; set; }
+
+        public string firstLineNo { get; set; }
+
+        public string lastLineNo { get; set; }
+
+        public string insertToolingList { get; set; }
     }
 }

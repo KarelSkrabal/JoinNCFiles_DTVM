@@ -65,6 +65,7 @@
     <Compile Include="BaseData.cs" />
     <Compile Include="BaseDataReader.cs" />
     <Compile Include="ECSettings.cs" />
+    <Compile Include="Helper.cs" />
     <Compile Include="IJoinNCfile.cs" />
     <Compile Include="JoinFactory.cs" />
     <Compile Include="MC3000.cs" />
