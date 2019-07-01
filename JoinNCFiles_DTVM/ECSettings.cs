@@ -13,7 +13,7 @@ namespace JoinNCFiles_DTVM
         ncFile,
         ppfFile
     }
-    class ECsettings
+    public class ECsettings
     {
         const string PAMSCL_FILE_NAME = "pamscl.dat";
         /// <summary>
