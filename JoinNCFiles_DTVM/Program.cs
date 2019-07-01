@@ -8,14 +8,12 @@ namespace JoinNCFiles_DTVM
         {
             try
             {             
+                //ziskam info z pamscl.dat souboru
                 var ecsettings = ECsettings.Instance;
                 //ziskam informace o spojovanych souborech
                 var joinner = JoinFactory.createJoinner(ecsettings.post);
-
-                joinner.Join();
-
-                MC3000 joinFiles = new MC3000(ecsettings.NCfile, new MC3000Settings());
-                
+                //spojim soubory pro aktualne pouzity postprocesor
+                joinner.JoinFiles(ecsettings.NCfile);
             }
             catch (Exception e)
             {

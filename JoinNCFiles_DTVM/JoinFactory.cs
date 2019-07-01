@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace JoinNCFiles_DTVM
@@ -25,7 +22,7 @@ namespace JoinNCFiles_DTVM
                 var reader = MC3000SettingReader.Instance;
                 BaseData setting = (MC3000Settings)reader.ReadData(Path.Combine(directory, @"MC3000SETTINGS.xml"));            
                 //create and return joinner for particular postprocesor
-                return new MC3000("path", setting);
+                return new MC3000(setting);
             } else if (untilUnderscore(postprocesor).Equals("WACO3"))
             {
                 //not ready eyt

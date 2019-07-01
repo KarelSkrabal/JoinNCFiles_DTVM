@@ -53,21 +53,17 @@ namespace JoinNCFiles_DTVM
         /// NC files and possibly tool sheets
         /// </summary>
         /// <param name="path">Last generated NC output, get it from pamscl.dat file. The name has to follow naming convention</param>
-        private void getResultNCfileName(string str)
+        private void getResultfileNames(string str)
         {
             //vygeneruji si nazev vysledneho souboru ve kterem budou spojene soubory
-            //POZOR TADY JE TROCHU CHAOZ!!!!! MUSIM UPRAVIT POZDEJC!!!!!
             if (Regex.Match(str, @"_{1}\d+").Success)
             {
-                //string[] tmp = new string[ALLOWED_MAX_NUMBER_NC_FILES];
-                //ziskam posledni vyskyt podtrzitka
-                
                 int lastUnderscore = Path.GetFileName(str).LastIndexOf('_');
-                //vytvorim si patern pro nacteni vsech souboru v dane slozce, ktere vehovuji podmince, ze ma nazev souboru doplneho o podtrzitko a suffix
-                //int pozice = Path.GetFileName(str).Length - lastUnderscore;
-                //int celkem = Path.GetFileName(str).Length;
-                //string patern = Path.GetFileNameWithoutExtension(str).Substring(0, celkem + 1 - pozice);
-                //tmp = Directory.GetFiles(Path.GetDirectoryName(str), patern + "*");
+                string ncFilePattern = string.Empty;
+                
+                int pozice = Path.GetFileName(str).Length - lastUnderscore;
+                int celkem = Path.GetFileName(str).Length;
+                ncFilePattern = Path.GetFileNameWithoutExtension(str).Substring(0, celkem + 1 - pozice);
                 string toolSheetPattern = string.Empty;
                 lastUnderscore = -1;
                 foreach (string item in str.filesByPattern())
@@ -86,20 +82,11 @@ namespace JoinNCFiles_DTVM
                     else
                         NCfiles.Add(item);
                 }
-                //Ladici vystupy - bude potlaceno
-                //foreach (string nc in NCoutput)
-                //{
-                //    Console.WriteLine("{0}", nc);
-                //}
-                //Console.ReadKey();
-                //Sort(ref NCoutput);
-                //Vygeneruji si cestu vysledneho spojeneho souboru pro NC vystup,serizovaci list
-                //spojovanych souboru musi byt vice nez 1
-                //todo - pattern for a NC file and toolsheet, create it from NCfiles and toolSheets List<string>
+                
                 if (NCfiles.Count > 1)
                 {
-                    NCfileResult = Path.GetDirectoryName(NCfiles[1].ToString()) + @"\" + patern.Remove(patern.Length - 1) + Path.GetExtension(NCfiles[1].ToString());
-                    ToolSheetResult = Path.GetDirectoryName(this.NCfiles[1].ToString()) + @"\" + patern.Remove(patern.Length - 1) + "-TOOL" + Path.GetExtension(this.NCfiles[1].ToString());
+                    NCfileResult = Path.GetDirectoryName(NCfiles[1].ToString()) + @"\" + ncFilePattern.Remove(ncFilePattern.Length - 1) + Path.GetExtension(NCfiles[1].ToString());
+                    ToolSheetResult = Path.GetDirectoryName(this.NCfiles[1].ToString()) + @"\" + ncFilePattern.Remove(ncFilePattern.Length - 1) + "-TOOL" + Path.GetExtension(this.NCfiles[1].ToString());
                 }
             }
             else
@@ -114,68 +101,16 @@ namespace JoinNCFiles_DTVM
         /// Konstruktor s parametrem,parametr slouzi pro vytvoreni patternu pro vyhledani vsech souboru vhodnych pro spojeni
         /// </summary>
         /// <param name="str">Nazev posledniho generovaneho NC souboru nacteneho z pamscl.dat</param>
-        public MC3000(string str, BaseData settings)
+        public MC3000(BaseData settings)
         {
             this.settings = (MC3000Settings) settings;
-
-            getResultNCfileName(str);
-            //vygeneruji si nazev vysledneho souboru ve kterem budou spojene soubory
-            //POZOR TADY JE TROCHU CHAOZ!!!!! MUSIM UPRAVIT POZDEJC!!!!!
-            //if (Regex.Match(str, @"_{1}\d+").Success)
-            //{
-            //    string[] tmp = new string[10];
-            //    //ziskam posledni vyskyt podtrzitka
-            //    int last = Path.GetFileName(str).LastIndexOf('_');
-            //    //vytvorim si patern pro nacteni vsech souboru v dane slozce, ktere vehovuji podmince, ze ma nazev souboru doplneho o podtrzitko a suffix
-            //    int pozice = Path.GetFileName(str).Length - last;
-            //    int celkem = Path.GetFileName(str).Length;
-            //    string patern = Path.GetFileNameWithoutExtension(str).Substring(0, celkem + 1 - pozice);
-            //    tmp = Directory.GetFiles(Path.GetDirectoryName(str), patern + "*");
-            //    string patern1 = string.Empty;
-            //    last = -1;
-            //    foreach (string item in tmp)
-            //    {
-            //        if (last < item.LastIndexOf('-'))
-            //        {
-            //            last = item.LastIndexOf('-');
-            //            patern1 = item.Substring(last);
-            //        }
-            //    }
-            //    //Naplnim si List vsech NC souboru,serizovacich listu pro spojeni
-            //    foreach (string item in tmp)
-            //    {
-            //        if (item.EndsWith(patern1))
-            //            ToolSheet.Add(item);
-            //        else
-            //            NCoutput.Add(item);
-            //    }
-            //    //Ladici vystupy - bude potlaceno
-            //    //foreach (string nc in NCoutput)
-            //    //{
-            //    //    Console.WriteLine("{0}", nc);
-            //    //}
-            //    //Console.ReadKey();
-            //    //Sort(ref NCoutput);
-            //    //Vygeneruji si cestu vysledneho spojeneho souboru pro NC vystup,serizovaci list
-            //    //spojovanych souboru musi byt vice nez 1
-            //    if (NCoutput.Count > 1)
-            //    {
-            //        NCfileResult = Path.GetDirectoryName(NCoutput[1].ToString()) + @"\" + patern.Remove(patern.Length - 1) + Path.GetExtension(NCoutput[1].ToString());
-            //        ToolSheetResult = Path.GetDirectoryName(this.NCoutput[1].ToString()) + @"\" + patern.Remove(patern.Length - 1) + "-TOOL" + Path.GetExtension(this.NCoutput[1].ToString());
-            //    }
-            //}
-            //else
-            //{
-            //    NCoutput.Add("Chyba výběru souboru");
-            //    Console.WriteLine("Chybný výběr souboru");
-            //    Console.ReadKey();
-            //}
         }
 
 
-        public void Join()
+        public void JoinFiles(string lastGeneratedNCfile)
         {
-            //todo - put it in one public method, all these methods make private
+            getResultfileNames(lastGeneratedNCfile);
+
             //spojim serizovaci listy nastroju,ale jen tehdy je-li souboru ke spojeni vice jak 1
             if (NCfiles.Count > 1)
             {
@@ -207,13 +142,8 @@ namespace JoinNCFiles_DTVM
                 {
                     using (StreamReader tr = new StreamReader(file, defaultEncoding))
                     {
-                        //test
-                        //var ahoj = File.ReadAllLines(file);
-                        //List<string> testAhoj = new List<string>(ahoj);
                         while (!tr.EndOfStream)
                         {
-                            //trochu nelogicke prtoazeni nactene radky pres string, jinak provadi chyby
-                            //pri zapisu do streamu, nevim proc.
                             str = tr.ReadLine();
                             if (insertLine)
                                 tw.WriteLine(Renumber(str, ref this.lineNo));

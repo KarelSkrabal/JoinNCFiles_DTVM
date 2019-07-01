@@ -4,6 +4,15 @@ using System.Linq;
 
 namespace JoinNCFiles_DTVM
 {
+    enum PAMSCL_STRUCTURE
+    {
+        postprocesor,
+        index_1_NotUsed,
+        index_2_NotUsed,
+        notUsed,
+        ncFile,
+        ppfFile
+    }
     class ECsettings
     {
         const string PAMSCL_FILE_NAME = "pamscl.dat";
@@ -44,7 +53,7 @@ namespace JoinNCFiles_DTVM
         public string ppffile
         {
             get { return _ppffile; }
-            set { ppffile = value; }
+            set { _ppffile = value; }
         }
 
         /// <summary>
@@ -54,7 +63,7 @@ namespace JoinNCFiles_DTVM
         public string backUpFile
         {
             get { return _backUpFile; }
-            set { backUpFile = value; }
+            set { _backUpFile = value; }
         }
 
         private ECsettings()
@@ -73,9 +82,7 @@ namespace JoinNCFiles_DTVM
         private string GetPamscl()
         {
             const Environment.SpecialFolder LOCAL_APPLICATION_DATA = Environment.SpecialFolder.LocalApplicationData;
-            string folderPath = Environment.GetFolderPath(LOCAL_APPLICATION_DATA);
-            //const string PLAN_IT_SUBDIRECTORY = "Temp\\Planit";
-            string pathToPlantSubdirectory = Path.Combine(folderPath, "Temp\\Planit");
+            string pathToPlantSubdirectory = Path.Combine(Environment.GetFolderPath(LOCAL_APPLICATION_DATA), "Temp\\Planit");
             DirectoryInfo ecFolders = new DirectoryInfo(pathToPlantSubdirectory);
             FileInfo[] ncFiles = ecFolders.GetFiles(PAMSCL_FILE_NAME, SearchOption.AllDirectories);
             String foundFile = String.Empty;
@@ -96,10 +103,10 @@ namespace JoinNCFiles_DTVM
             char[] sep = { ',' };
             StreamReader sr = new StreamReader(this.pamsclFile, System.Text.Encoding.Default);
             string[] matches = (sr.ReadLine()).Split(sep, StringSplitOptions.None);
-            this.post = matches[0];
-            this.NCfile = matches[3];
-            _ppffile = matches[4];
-            _backUpFile = Path.GetDirectoryName(matches[3]) + "\\" + Path.GetFileNameWithoutExtension(matches[3]) + ".tmp";
+            this.post = matches[(int)PAMSCL_STRUCTURE.postprocesor];
+            this.NCfile = matches[(int)PAMSCL_STRUCTURE.ncFile];
+            this.ppffile = matches[(int)PAMSCL_STRUCTURE.ppfFile];
+            this.backUpFile = Path.GetDirectoryName(matches[3]) + "\\" + Path.GetFileNameWithoutExtension(matches[3]) + ".tmp";
         }
 
         /// <summary>

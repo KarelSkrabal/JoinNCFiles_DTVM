@@ -7,6 +7,6 @@ namespace JoinNCFiles_DTVM
 {
     public interface IJoinNCfile
     {
-        void Join();
+        void JoinFiles(string lastGeneratedNCfile);
     }
 }
