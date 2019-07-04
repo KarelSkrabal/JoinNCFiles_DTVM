@@ -62,17 +62,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseData.cs" />
-    <Compile Include="BaseDataReader.cs" />
-    <Compile Include="ECSettings.cs" />
-    <Compile Include="Helper.cs" />
-    <Compile Include="IJoinNCfile.cs" />
-    <Compile Include="JoinFactory.cs" />
-    <Compile Include="MC3000.cs" />
-    <Compile Include="MC3000SettingReader.cs" />
-    <Compile Include="MC3000Settings.cs" />
-    <Compile Include="IPamsclReader.cs" />
-    <Compile Include="PamsclReader.cs" />
+    <Compile Include="Core\Data\BaseData.cs" />
+    <Compile Include="Core\Data\BaseDataReader.cs" />
+    <Compile Include="Core\ECSettings.cs" />
+    <Compile Include="Helpers\Helper.cs" />
+    <Compile Include="Core\Abstraction\IJoinNCfile.cs" />
+    <Compile Include="Core\JoinFactory.cs" />
+    <Compile Include="Joinners\MC3000\MC3000.cs" />
+    <Compile Include="Joinners\MC3000\Settings\MC3000SettingReader.cs" />
+    <Compile Include="Joinners\MC3000\Settings\MC3000Settings.cs" />
+    <Compile Include="Core\Abstraction\IPamsclReader.cs" />
+    <Compile Include="Core\PamsclReader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -98,7 +98,9 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Joinners\WACO3\Settings\" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="Data\T1-TOOL.nc" />
     <None Include="Data\T1_1-TOOL.nc" />

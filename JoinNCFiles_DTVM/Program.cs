@@ -8,13 +8,13 @@ namespace JoinNCFiles_DTVM
         {
             try
             {
-                //ziskam info z pamscl.dat souboru
+                //get all necessary data from pascl.dat file
                 IPamsclReader reader = new PamsclReader(@"\Temp\Planit");
                 var ecsettings = ECsettings.CreateInstance(reader);
-                //ziskam informace o spojovanych souborech
                 ecsettings.GetDetails();
-                var joinner = JoinFactory.createJoinner(ecsettings.Postprocesor);
-                //spojim soubory pro aktualne pouzity postprocesor
+                //get a propriate joinner for the actual postprocesor
+                var joinner = JoinFactory.CreateJoinner(ecsettings.Postprocesor);
+                //joining NC files
                 joinner.JoinFiles(ecsettings.NCfile);
             }
             catch (Exception e)

@@ -11,7 +11,7 @@ namespace JoinNCFiles_DTVM.UnitTests
         [TestMethod]
         public void TestMethod1()
         {
-            var ec = ECsettings.Instance;
+            //var ec = ECsettings.Instance;
             Assert.AreEqual(string.Empty, string.Empty);
         }
     }

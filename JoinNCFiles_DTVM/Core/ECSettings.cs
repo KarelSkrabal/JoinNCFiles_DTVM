@@ -4,19 +4,22 @@ using System.Linq;
 
 namespace JoinNCFiles_DTVM
 {
+    /// <summary>
+    /// Structure of the very first line of the pamscl.dat file edited by Edgecam every time that some NC file generated
+    /// </summary>
     enum PAMSCL_STRUCTURE
     {
         postprocesor,
         index_1_NotUsed,
         index_2_NotUsed,
-        notUsed,
+        index_3_NotUsed,
         ncFile,
         ppfFile
     }
     public class ECsettings
     {
         /// <summary>
-        /// Posledni pouzity postprocesor
+        /// Last postprocesor used for generating NC file
         /// </summary>
         private string _postprocesor;
         public string Postprocesor
@@ -26,7 +29,7 @@ namespace JoinNCFiles_DTVM
         }
 
         /// <summary>
-        /// Posledni vytvoreny NC soubor.Vyhodnocuji se vsechny vsechny verze Edgecam
+        /// last NC file generated
         /// </summary>
         private string _NCfile;
         public string NCfile
@@ -36,7 +39,7 @@ namespace JoinNCFiles_DTVM
         }
 
         /// <summary>
-        /// Obrabeci postup ze ktereho byl naposledy vygenerovany NC soubor
+        /// ppf machining file
         /// </summary>
         private string _ppffile;
         public string Ppffile
@@ -46,7 +49,7 @@ namespace JoinNCFiles_DTVM
         }
 
         /// <summary>
-        /// Zaloha posledniho editovaneho Nc souboru
+        /// back up of the last NC file generated
         /// </summary>
         private string _backUpFile;
         public string BackUpFile
@@ -54,8 +57,14 @@ namespace JoinNCFiles_DTVM
             get { return _backUpFile; }
             set { _backUpFile = value; }
         }
-
+        /// <summary>
+        /// Reader of pamscl.dat file
+        /// </summary>
         private readonly IPamsclReader reader;
+
+        /// <summary>
+        /// Path to the pamscl.dat file
+        /// </summary>
         private readonly string pamsclFilePath;
 
         private ECsettings(IPamsclReader reader)
@@ -73,13 +82,9 @@ namespace JoinNCFiles_DTVM
             }
             return instance.Value;
         }
-
-
-
-        //TODO - https://www.codeproject.com/Tips/1033646/SOLID-Principle-with-Csharp-Example
-
-       // for GetPamscl() implement interface like interface segregation principle!!!!!
-
+        /// <summary>
+        /// Reads and splits the first line in the pamscl.dat file
+        /// </summary>
         public void GetDetails()
         {
             char[] sep = { ',' };
@@ -90,11 +95,8 @@ namespace JoinNCFiles_DTVM
             this.Ppffile = matches[(int)PAMSCL_STRUCTURE.ppfFile];
             this.BackUpFile = Path.GetDirectoryName(matches[(int)PAMSCL_STRUCTURE.ncFile]) + "\\" + Path.GetFileNameWithoutExtension(matches[(int)PAMSCL_STRUCTURE.ncFile]) + ".tmp";
         }
-
         /// <summary>
-        /// Public void backUpNCfile
-        /// Metoda pro vytvoreni zalohy editovaneho NC souboru. V pripade, ze zalohovany soubor jiz existuje, dojde k jeho prepsani.
-        /// Vytvoreny soubor bude mit stejne umisteni i nazev jako puvodni soubor, koncovka souboru se zmeni na *.tmp
+        /// Backs up NC file
         /// </summary>
         public void BackUpNCfile()
         {

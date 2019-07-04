@@ -7,10 +7,11 @@ using System.Xml.Serialization;
 
 namespace JoinNCFiles_DTVM
 {
+    /// <summary>
+    /// Settings reader for the postprocesor MC3000
+    /// </summary>
     class MC3000SettingReader : BaseDataReader<MC3000Settings>
     {
-
-
         private static Lazy<MC3000SettingReader> instance = new Lazy<MC3000SettingReader>(() => new MC3000SettingReader());
         public static MC3000SettingReader Instance => instance.Value;
 

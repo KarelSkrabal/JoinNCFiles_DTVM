@@ -6,21 +6,22 @@ namespace JoinNCFiles_DTVM
     [Serializable]
     [XmlRootAttribute("SETTINGS")]
 
+    
     public class MC3000Settings : BaseData
     {
 
         [XmlElement("SETTINGROW")]
-        public SETTINGROW[] settingrows { get; set; }
+        public SETTINGROW[] Settingrows { get; set; }
     }
 
     public class SETTINGROW
     {
-        public string lineNo { get; set; }
+        public string LineNo { get; set; }
 
-        public string firstLineNo { get; set; }
+        public string FirstLineNo { get; set; }
 
-        public string lastLineNo { get; set; }
+        public string LastLineNo { get; set; }
 
-        public string insertToolingList { get; set; }
+        public string InsertToolingList { get; set; }
     }
 }

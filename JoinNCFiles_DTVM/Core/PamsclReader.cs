@@ -11,12 +11,18 @@ namespace JoinNCFiles_DTVM
         private const string PAMSCL_FILE_NAME = "pamscl.dat";
 
         private readonly string planitFolder;
-
+        /// <summary>
+        /// Ctor reader of pamscl.dat file
+        /// </summary>
+        /// <param name="planitFolder">Path to the pamscl.dat file - depends on the Edgecam version</param>
         public PamsclReader(string planitFolder)
         {
             this.planitFolder = planitFolder;
         }
-        
+        /// <summary>
+        /// Reads pamscl.dat file
+        /// </summary>
+        /// <returns>Returns last edited pamscl file</returns>
         public string Read()
         {
             const Environment.SpecialFolder LOCAL_APPLICATION_DATA = Environment.SpecialFolder.LocalApplicationData;
