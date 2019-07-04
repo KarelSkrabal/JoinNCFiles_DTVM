@@ -66,7 +66,7 @@ namespace JoinNCFiles_DTVM
                 ncFilePattern = Path.GetFileNameWithoutExtension(str).Substring(0, celkem + 1 - pozice);
                 string toolSheetPattern = string.Empty;
                 lastUnderscore = -1;
-                foreach (string item in str.filesByPattern())
+                foreach (string item in str.FilesByPattern())
                 {
                     if (lastUnderscore < item.LastIndexOf('-'))
                     {
@@ -75,7 +75,7 @@ namespace JoinNCFiles_DTVM
                     }
                 }
                 //Naplnim si List vsech NC souboru,serizovacich listu pro spojeni
-                foreach (string item in str.filesByPattern())
+                foreach (string item in str.FilesByPattern())
                 {
                     if (item.EndsWith(toolSheetPattern))
                         ToolSheets.Add(item);

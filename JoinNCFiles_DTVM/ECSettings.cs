@@ -15,25 +15,14 @@ namespace JoinNCFiles_DTVM
     }
     public class ECsettings
     {
-        const string PAMSCL_FILE_NAME = "pamscl.dat";
-        /// <summary>
-        /// Posledni editovany pamscl.dat soubor
-        /// </summary>
-        private string _pamsclFile;
-        public string pamsclFile
-        {
-            get { return _pamsclFile; }
-            set { _pamsclFile = value; }
-        }
-
         /// <summary>
         /// Posledni pouzity postprocesor
         /// </summary>
-        private string _post;
-        public string post
+        private string _postprocesor;
+        public string Postprocesor
         {
-            get { return _post; }
-            set { _post = value; }
+            get { return _postprocesor; }
+            set { _postprocesor = value; }
         }
 
         /// <summary>
@@ -50,7 +39,7 @@ namespace JoinNCFiles_DTVM
         /// Obrabeci postup ze ktereho byl naposledy vygenerovany NC soubor
         /// </summary>
         private string _ppffile;
-        public string ppffile
+        public string Ppffile
         {
             get { return _ppffile; }
             set { _ppffile = value; }
@@ -60,53 +49,46 @@ namespace JoinNCFiles_DTVM
         /// Zaloha posledniho editovaneho Nc souboru
         /// </summary>
         private string _backUpFile;
-        public string backUpFile
+        public string BackUpFile
         {
             get { return _backUpFile; }
             set { _backUpFile = value; }
         }
 
-        private ECsettings()
+        private readonly IPamsclReader reader;
+        private readonly string pamsclFilePath;
+
+        private ECsettings(IPamsclReader reader)
         {
-            this.pamsclFile = GetPamscl();
-            GetDetails();
+            this.reader = reader;
+            this.pamsclFilePath = reader.Read();
         }
 
-        private static Lazy<ECsettings> instance = new Lazy<ECsettings>(() => new ECsettings());
-        public static ECsettings Instance => instance.Value;
-
-        /// <summary>
-        /// Procedura pro ziskani souboru pamscl.dat ktery byl naposledy editovan.
-        /// </summary>
-        /// <returns>Kompletni cesta k poslednimu editovanemu soubor pamscl.</returns>
-        private string GetPamscl()
+        private static Lazy<ECsettings> instance = null;
+        public static ECsettings CreateInstance(IPamsclReader reader)
         {
-            const Environment.SpecialFolder LOCAL_APPLICATION_DATA = Environment.SpecialFolder.LocalApplicationData;
-            string pathToPlantSubdirectory = Path.Combine(Environment.GetFolderPath(LOCAL_APPLICATION_DATA), "Temp\\Planit");
-            DirectoryInfo ecFolders = new DirectoryInfo(pathToPlantSubdirectory);
-            FileInfo[] ncFiles = ecFolders.GetFiles(PAMSCL_FILE_NAME, SearchOption.AllDirectories);
-            String foundFile = String.Empty;
-            IOrderedEnumerable<FileInfo> fileonFosDescending = from fileInfo in ncFiles
-                                                               orderby fileInfo.LastWriteTime descending
-                                                               select fileInfo;
-            if (fileonFosDescending.Any())
+            if(instance == null)
             {
-                FileInfo firstFileInfo = fileonFosDescending.First();
-                DateTime date = firstFileInfo.LastWriteTime;
-                foundFile = firstFileInfo.FullName;
+                instance = new Lazy<ECsettings>(() => new ECsettings(reader));
             }
-            return foundFile;
+            return instance.Value;
         }
 
-        private void GetDetails()
+
+
+        //TODO - https://www.codeproject.com/Tips/1033646/SOLID-Principle-with-Csharp-Example
+
+       // for GetPamscl() implement interface like interface segregation principle!!!!!
+
+        public void GetDetails()
         {
             char[] sep = { ',' };
-            StreamReader sr = new StreamReader(this.pamsclFile, System.Text.Encoding.Default);
+            StreamReader sr = new StreamReader(this.pamsclFilePath, System.Text.Encoding.Default);
             string[] matches = (sr.ReadLine()).Split(sep, StringSplitOptions.None);
-            this.post = matches[(int)PAMSCL_STRUCTURE.postprocesor];
+            this.Postprocesor = matches[(int)PAMSCL_STRUCTURE.postprocesor];
             this.NCfile = matches[(int)PAMSCL_STRUCTURE.ncFile];
-            this.ppffile = matches[(int)PAMSCL_STRUCTURE.ppfFile];
-            this.backUpFile = Path.GetDirectoryName(matches[3]) + "\\" + Path.GetFileNameWithoutExtension(matches[3]) + ".tmp";
+            this.Ppffile = matches[(int)PAMSCL_STRUCTURE.ppfFile];
+            this.BackUpFile = Path.GetDirectoryName(matches[(int)PAMSCL_STRUCTURE.ncFile]) + "\\" + Path.GetFileNameWithoutExtension(matches[(int)PAMSCL_STRUCTURE.ncFile]) + ".tmp";
         }
 
         /// <summary>
@@ -114,7 +96,7 @@ namespace JoinNCFiles_DTVM
         /// Metoda pro vytvoreni zalohy editovaneho NC souboru. V pripade, ze zalohovany soubor jiz existuje, dojde k jeho prepsani.
         /// Vytvoreny soubor bude mit stejne umisteni i nazev jako puvodni soubor, koncovka souboru se zmeni na *.tmp
         /// </summary>
-        public void backUpNCfile()
+        public void BackUpNCfile()
         {
             string temp = Path.GetDirectoryName(this.NCfile) + "\\" + Path.GetFileNameWithoutExtension(this.NCfile) + ".tmp";
             File.Copy(this.NCfile, Path.GetDirectoryName(this.NCfile) + "\\" + Path.GetFileNameWithoutExtension(this.NCfile) + ".tmp", true);

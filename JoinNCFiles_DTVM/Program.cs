@@ -7,11 +7,13 @@ namespace JoinNCFiles_DTVM
         static void Main(string[] args)
         {
             try
-            {             
+            {
                 //ziskam info z pamscl.dat souboru
-                var ecsettings = ECsettings.Instance;
+                IPamsclReader reader = new PamsclReader(@"\Temp\Planit");
+                var ecsettings = ECsettings.CreateInstance(reader);
                 //ziskam informace o spojovanych souborech
-                var joinner = JoinFactory.createJoinner(ecsettings.post);
+                ecsettings.GetDetails();
+                var joinner = JoinFactory.createJoinner(ecsettings.Postprocesor);
                 //spojim soubory pro aktualne pouzity postprocesor
                 joinner.JoinFiles(ecsettings.NCfile);
             }

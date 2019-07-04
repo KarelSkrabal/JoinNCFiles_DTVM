@@ -71,6 +71,8 @@
     <Compile Include="MC3000.cs" />
     <Compile Include="MC3000SettingReader.cs" />
     <Compile Include="MC3000Settings.cs" />
+    <Compile Include="IPamsclReader.cs" />
+    <Compile Include="PamsclReader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

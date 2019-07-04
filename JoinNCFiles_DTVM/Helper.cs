@@ -4,14 +4,14 @@ namespace JoinNCFiles_DTVM
 {
     public static class Helper
     {
-        public static string filePattern(this string path)
+        public static string FilePattern(this string path)
         {
 
             return string.Empty;
         }
 
 
-        public static string[] filesByPattern(this string str)
+        public static string[] FilesByPattern(this string str)
         {
             int lastUnderscore = Path.GetFileName(str).LastIndexOf('_');
             //vytvorim si patern pro nacteni vsech souboru v dane slozce, ktere vehovuji podmince, ze ma nazev souboru doplneho o podtrzitko a suffix
