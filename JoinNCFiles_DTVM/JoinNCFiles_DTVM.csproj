@@ -62,13 +62,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Abstraction\IPamsclFilePathProviders.cs" />
     <Compile Include="Core\Data\BaseData.cs" />
     <Compile Include="Core\Data\BaseDataReader.cs" />
     <Compile Include="Core\ECSettings.cs" />
+    <Compile Include="Core\PamsclFilePathProvider.cs" />
     <Compile Include="Helpers\Helper.cs" />
     <Compile Include="Core\Abstraction\IJoinNCfile.cs" />
     <Compile Include="Core\JoinFactory.cs" />
+    <Compile Include="Joinners\MC3000\Abstraction\IMC3000FileNamesManipulator.cs" />
     <Compile Include="Joinners\MC3000\MC3000.cs" />
+    <Compile Include="Joinners\MC3000\MC3000FileNameManipulator.cs" />
     <Compile Include="Joinners\MC3000\Settings\MC3000SettingReader.cs" />
     <Compile Include="Joinners\MC3000\Settings\MC3000Settings.cs" />
     <Compile Include="Core\Abstraction\IPamsclReader.cs" />
@@ -102,17 +106,17 @@
     <Folder Include="Joinners\WACO3\Settings\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Data\T1-TOOL.nc" />
-    <None Include="Data\T1_1-TOOL.nc" />
-    <None Include="Data\T1_1.nc" />
-    <None Include="Data\T1_2-TOOL.nc" />
-    <None Include="Data\T1_2.nc" />
-    <None Include="Data\T1_3-TOOL.nc" />
-    <None Include="Data\T1_3.nc" />
-    <None Include="Data\T1_4-TOOL.nc" />
-    <None Include="Data\T1_4.nc" />
-    <None Include="Data\T1_5-TOOL.nc" />
-    <None Include="Data\T1_5.nc" />
+    <None Include="TestingData\T1-TOOL.nc" />
+    <None Include="TestingData\T1_1-TOOL.nc" />
+    <None Include="TestingData\T1_1.nc" />
+    <None Include="TestingData\T1_2-TOOL.nc" />
+    <None Include="TestingData\T1_2.nc" />
+    <None Include="TestingData\T1_3-TOOL.nc" />
+    <None Include="TestingData\T1_3.nc" />
+    <None Include="TestingData\T1_4-TOOL.nc" />
+    <None Include="TestingData\T1_4.nc" />
+    <None Include="TestingData\T1_5-TOOL.nc" />
+    <None Include="TestingData\T1_5.nc" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

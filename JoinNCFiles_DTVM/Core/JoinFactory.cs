@@ -22,7 +22,7 @@ namespace JoinNCFiles_DTVM
 
             string untilUnderscore(string s) { return (new Regex("^(.*?)_")).Match(s).Groups[1].ToString(); }
 
-            if (untilUnderscore(postprocesor).Equals("MC3001"))
+            if (untilUnderscore(postprocesor).ToUpper().Equals("MC3001"))
             {
                 var reader = MC3000SettingReader.Instance;
                 BaseData setting = (MC3000Settings)reader.ReadData(Path.Combine(directory, @"MC3000SETTINGS.xml"));            

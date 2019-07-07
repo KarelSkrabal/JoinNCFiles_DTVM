@@ -1,4 +1,6 @@
-﻿using System;
+﻿using JoinNCFiles_DTVM.Core;
+using JoinNCFiles_DTVM.Core.Abstraction;
+using System;
 
 namespace JoinNCFiles_DTVM
 {
@@ -9,7 +11,8 @@ namespace JoinNCFiles_DTVM
             try
             {
                 //get all necessary data from pascl.dat file
-                IPamsclReader reader = new PamsclReader(@"\Temp\Planit");
+                IPamsclFilePathProviders infoProvider = new PamsclFilePathProvider(@"\Temp\Planit\");
+                IPamsclReader reader = new PamsclReader(infoProvider.GetPamsclFilePath());
                 var ecsettings = ECsettings.CreateInstance(reader);
                 ecsettings.GetDetails();
                 //get a propriate joinner for the actual postprocesor

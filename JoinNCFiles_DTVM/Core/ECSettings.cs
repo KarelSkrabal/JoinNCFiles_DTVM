@@ -1,6 +1,4 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
 
 namespace JoinNCFiles_DTVM
 {
@@ -12,7 +10,6 @@ namespace JoinNCFiles_DTVM
         postprocesor,
         index_1_NotUsed,
         index_2_NotUsed,
-        index_3_NotUsed,
         ncFile,
         ppfFile
     }
@@ -47,30 +44,15 @@ namespace JoinNCFiles_DTVM
             get { return _ppffile; }
             set { _ppffile = value; }
         }
-
-        /// <summary>
-        /// back up of the last NC file generated
-        /// </summary>
-        private string _backUpFile;
-        public string BackUpFile
-        {
-            get { return _backUpFile; }
-            set { _backUpFile = value; }
-        }
+        
         /// <summary>
         /// Reader of pamscl.dat file
         /// </summary>
-        private readonly IPamsclReader reader;
-
-        /// <summary>
-        /// Path to the pamscl.dat file
-        /// </summary>
-        private readonly string pamsclFilePath;
+        private readonly IPamsclReader _reader;
 
         private ECsettings(IPamsclReader reader)
         {
-            this.reader = reader;
-            this.pamsclFilePath = reader.Read();
+            _reader = reader;
         }
 
         private static Lazy<ECsettings> instance = null;
@@ -87,21 +69,10 @@ namespace JoinNCFiles_DTVM
         /// </summary>
         public void GetDetails()
         {
-            char[] sep = { ',' };
-            StreamReader sr = new StreamReader(this.pamsclFilePath, System.Text.Encoding.Default);
-            string[] matches = (sr.ReadLine()).Split(sep, StringSplitOptions.None);
-            this.Postprocesor = matches[(int)PAMSCL_STRUCTURE.postprocesor];
-            this.NCfile = matches[(int)PAMSCL_STRUCTURE.ncFile];
-            this.Ppffile = matches[(int)PAMSCL_STRUCTURE.ppfFile];
-            this.BackUpFile = Path.GetDirectoryName(matches[(int)PAMSCL_STRUCTURE.ncFile]) + "\\" + Path.GetFileNameWithoutExtension(matches[(int)PAMSCL_STRUCTURE.ncFile]) + ".tmp";
-        }
-        /// <summary>
-        /// Backs up NC file
-        /// </summary>
-        public void BackUpNCfile()
-        {
-            string temp = Path.GetDirectoryName(this.NCfile) + "\\" + Path.GetFileNameWithoutExtension(this.NCfile) + ".tmp";
-            File.Copy(this.NCfile, Path.GetDirectoryName(this.NCfile) + "\\" + Path.GetFileNameWithoutExtension(this.NCfile) + ".tmp", true);
+            string[] matches = _reader.Read();
+            Postprocesor = matches[(int)PAMSCL_STRUCTURE.postprocesor];
+            NCfile = matches[(int)PAMSCL_STRUCTURE.ncFile];
+            Ppffile = matches[(int)PAMSCL_STRUCTURE.ppfFile];
         }
     }
 }

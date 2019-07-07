@@ -51,22 +51,19 @@ namespace JoinNCFiles_DTVM
         public string LastLineNo => lastLineNo;
 
         /// <summary>
-        /// Gets the name of the final NCfile name created by joining all
-        /// NC files and possibly tool sheets
+        /// Gets the name of the final NCfile by replacing suffix number with a underscore character
         /// </summary>
         /// <param name="path">Last generated NC output, get it from pamscl.dat file. The name has to follow naming convention</param>
         private void GetResultfileNames(string str)
         {
             if (Regex.Match(str, @"_{1}\d+").Success)
             {
-                int lastUnderscore = Path.GetFileName(str).LastIndexOf('_');
-                string ncFilePattern = string.Empty;
-                
-                int pozice = Path.GetFileName(str).Length - lastUnderscore;
-                int celkem = Path.GetFileName(str).Length;
-                ncFilePattern = Path.GetFileNameWithoutExtension(str).Substring(0, celkem + 1 - pozice);
+                //todo - change it to the method string GetNCFilePattern(string str)
+                string ncFilePattern = str.FileByPattern();
+
+                //todo - change it to the method string GetToolSheetPattern(string str)
                 string toolSheetPattern = string.Empty;
-                lastUnderscore = -1;
+                int lastUnderscore = -1;
                 foreach (string item in str.FilesByPattern())
                 {
                     if (lastUnderscore < item.LastIndexOf('-'))
@@ -75,7 +72,8 @@ namespace JoinNCFiles_DTVM
                         toolSheetPattern = item.Substring(lastUnderscore);
                     }
                 }
-
+                //todo- change it to the method string[] GetToolSheets(string toolSheetPattern) 
+                //todo- change it to the method string[] GetNCFiles(string ncFilePattern) 
                 foreach (string item in str.FilesByPattern())
                 {
                     if (item.EndsWith(toolSheetPattern))
@@ -86,8 +84,10 @@ namespace JoinNCFiles_DTVM
                 
                 if (NCfiles.Count > 1)
                 {
+                    //todo-change it to the method GetNCfileResult(string ncFilePattern,string[] NCfiles)
                     NCfileResult = Path.GetDirectoryName(NCfiles[0].ToString()) + @"\" + ncFilePattern.Remove(ncFilePattern.Length - 1) + Path.GetExtension(NCfiles[0].ToString());
-                    ToolSheetResult = Path.GetDirectoryName(this.NCfiles[0].ToString()) + @"\" + ncFilePattern.Remove(ncFilePattern.Length - 1) + "-TOOL" + Path.GetExtension(this.NCfiles[0].ToString());
+                    //todo-change it to the method GetToolSheetFileResult(string toolSheetPattern,string[] ToolSheets)
+                    ToolSheetResult = Path.GetDirectoryName(NCfiles[0].ToString()) + @"\" + ncFilePattern.Remove(ncFilePattern.Length - 1) + "-TOOL" + Path.GetExtension(NCfiles[0].ToString());
                 }
             }
             else
@@ -187,6 +187,7 @@ namespace JoinNCFiles_DTVM
             File.WriteAllLines(this.NCfileResult, lines.ToArray());
         }
 
+
         /// <summary>
         /// Deletes a resulting file in case that exists from the previous run
         /// </summary>
@@ -202,7 +203,7 @@ namespace JoinNCFiles_DTVM
             }
             catch (Exception e)
             {
-                Console.WriteLine("Chjyba ... " + e.StackTrace +
+                Console.WriteLine("Chyba ... " + e.StackTrace +
                     Environment.NewLine + Environment.NewLine +
                     e.Message + Environment.NewLine + Environment.NewLine +
                     e.TargetSite);
