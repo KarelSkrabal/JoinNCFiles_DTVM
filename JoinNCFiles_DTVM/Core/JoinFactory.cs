@@ -1,4 +1,6 @@
-﻿using System;
+﻿using JoinNCFiles_DTVM.Joinners.MC3000;
+using JoinNCFiles_DTVM.Joinners.MC3000.Abstraction;
+using System;
 using System.IO;
 using System.Text.RegularExpressions;
 
@@ -25,9 +27,10 @@ namespace JoinNCFiles_DTVM
             if (untilUnderscore(postprocesor).ToUpper().Equals("MC3001"))
             {
                 var reader = MC3000SettingReader.Instance;
-                BaseData setting = (MC3000Settings)reader.ReadData(Path.Combine(directory, @"MC3000SETTINGS.xml"));            
+                BaseData setting = (MC3000Settings)reader.ReadData(Path.Combine(directory, @"MC3000SETTINGS.xml"));
+                IMC3000FileNamesManipulator fileNameManipulator = new MC3000FileNameManipulator();
                 //create and return joinner for particular postprocesor
-                return new MC3000(setting);
+                return new MC3000(setting, fileNameManipulator);
             } else if (untilUnderscore(postprocesor).Equals("WACO3"))
             {
                 //not ready eyt

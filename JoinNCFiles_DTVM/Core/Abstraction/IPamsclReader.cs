@@ -2,6 +2,6 @@
 {
     public interface IPamsclReader
     {
-        string[] Read();
+        string[] Read { get; }
     }
 }

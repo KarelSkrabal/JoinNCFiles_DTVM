@@ -1,8 +1,8 @@
-﻿using System;
+﻿using JoinNCFiles_DTVM.Joinners.MC3000.Abstraction;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using System.Text.RegularExpressions;
 
 namespace JoinNCFiles_DTVM
 {
@@ -45,7 +45,7 @@ namespace JoinNCFiles_DTVM
         /// Setting file for the actual postprocesor
         /// </summary>
         private readonly MC3000Settings settings;
-
+        private readonly IMC3000FileNamesManipulator _fileNameManipulator;
         private readonly string resultNCfileName = string.Empty;
 
         public string LastLineNo => lastLineNo;
@@ -56,55 +56,59 @@ namespace JoinNCFiles_DTVM
         /// <param name="path">Last generated NC output, get it from pamscl.dat file. The name has to follow naming convention</param>
         private void GetResultfileNames(string str)
         {
-            if (Regex.Match(str, @"_{1}\d+").Success)
-            {
-                //todo - change it to the method string GetNCFilePattern(string str)
-                string ncFilePattern = str.FileByPattern();
 
-                //todo - change it to the method string GetToolSheetPattern(string str)
-                string toolSheetPattern = string.Empty;
-                int lastUnderscore = -1;
-                foreach (string item in str.FilesByPattern())
-                {
-                    if (lastUnderscore < item.LastIndexOf('-'))
-                    {
-                        lastUnderscore = item.LastIndexOf('-');
-                        toolSheetPattern = item.Substring(lastUnderscore);
-                    }
-                }
-                //todo- change it to the method string[] GetToolSheets(string toolSheetPattern) 
-                //todo- change it to the method string[] GetNCFiles(string ncFilePattern) 
-                foreach (string item in str.FilesByPattern())
-                {
-                    if (item.EndsWith(toolSheetPattern))
-                        ToolSheets.Add(item);
-                    else
-                        NCfiles.Add(item);
-                }
-                
-                if (NCfiles.Count > 1)
-                {
-                    //todo-change it to the method GetNCfileResult(string ncFilePattern,string[] NCfiles)
-                    NCfileResult = Path.GetDirectoryName(NCfiles[0].ToString()) + @"\" + ncFilePattern.Remove(ncFilePattern.Length - 1) + Path.GetExtension(NCfiles[0].ToString());
-                    //todo-change it to the method GetToolSheetFileResult(string toolSheetPattern,string[] ToolSheets)
-                    ToolSheetResult = Path.GetDirectoryName(NCfiles[0].ToString()) + @"\" + ncFilePattern.Remove(ncFilePattern.Length - 1) + "-TOOL" + Path.GetExtension(NCfiles[0].ToString());
-                }
-            }
-            else
-            {
-                NCfiles.Add("Chyba výběru souboru");
-                Console.WriteLine("Chybný výběr souboru");
-                Console.ReadKey();
-            }
+
+
+            //if (Regex.Match(str, @"_{1}\d+").Success)
+            //{
+            //    //todo - change it to the method string GetNCFilePattern(string str)
+            //    string ncFilePattern = str.FileByPattern();
+
+            //    //todo - change it to the method string GetToolSheetPattern(string str)
+            //    string toolSheetPattern = string.Empty;
+            //    int lastUnderscore = -1;
+            //    foreach (string item in str.FilesByPattern())
+            //    {
+            //        if (lastUnderscore < item.LastIndexOf('-'))
+            //        {
+            //            lastUnderscore = item.LastIndexOf('-');
+            //            toolSheetPattern = item.Substring(lastUnderscore);
+            //        }
+            //    }
+            //    //todo- change it to the method string[] GetToolSheets(string toolSheetPattern) 
+            //    //todo- change it to the method string[] GetNCFiles(string ncFilePattern) 
+            //    foreach (string item in str.FilesByPattern())
+            //    {
+            //        if (item.EndsWith(toolSheetPattern))
+            //            ToolSheets.Add(item);
+            //        else
+            //            NCfiles.Add(item);
+            //    }
+
+            //    if (NCfiles.Count > 1)
+            //    {
+            //        //todo-change it to the method GetNCfileResult(string ncFilePattern,string[] NCfiles)
+            //        NCfileResult = Path.GetDirectoryName(NCfiles[0].ToString()) + @"\" + ncFilePattern.Remove(ncFilePattern.Length - 1) + Path.GetExtension(NCfiles[0].ToString());
+            //        //todo-change it to the method GetToolSheetFileResult(string toolSheetPattern,string[] ToolSheets)
+            //        ToolSheetResult = Path.GetDirectoryName(NCfiles[0].ToString()) + @"\" + ncFilePattern.Remove(ncFilePattern.Length - 1) + "-TOOL" + Path.GetExtension(NCfiles[0].ToString());
+            //    }
+            //}
+            //else
+            //{
+            //    NCfiles.Add("Chyba výběru souboru");
+            //    Console.WriteLine("Chybný výběr souboru");
+            //    Console.ReadKey();
+            //}
         }
 
-       /// <summary>
-       /// Joinner for machine MC3000
-       /// </summary>
-       /// <param name="settings">Settings file inherited from BaseData</param>
-        public MC3000(BaseData settings)
+        /// <summary>
+        /// Joinner for machine MC3000
+        /// </summary>
+        /// <param name="settings">Settings file inherited from BaseData</param>
+        public MC3000(BaseData settings, IMC3000FileNamesManipulator fileNameManipulator)
         {
-            this.settings = (MC3000Settings) settings;
+            this.settings = (MC3000Settings)settings;
+            _fileNameManipulator = fileNameManipulator;
         }
 
         /// <summary>
@@ -113,18 +117,19 @@ namespace JoinNCFiles_DTVM
         /// <param name="lastGeneratedNCfile">Last generated NC file</param>
         public void JoinFiles(string lastGeneratedNCfile)
         {
-            GetResultfileNames(lastGeneratedNCfile);
-
-
-            if (NCfiles.Count > 1)
-            {
-                //joining NC files
-                Join(false, ToolSheetResult, ToolSheets);
+                var toolSheetPattern = _fileNameManipulator.GetToolSheetPattern(lastGeneratedNCfile);
+                var ncFilePattern = _fileNameManipulator.GetNCFilePattern(lastGeneratedNCfile);
+                var ncFiles = _fileNameManipulator.GetNCFiles(lastGeneratedNCfile, ncFilePattern);
+                var toolSheetFiles = _fileNameManipulator.GetToolSheets(lastGeneratedNCfile, toolSheetPattern);
+                var ncFileResult = _fileNameManipulator.GetNCfileResult(ncFilePattern, ncFiles);
+                var toolSheetResult = _fileNameManipulator.GetToolSheetResult(ncFileResult, toolSheetPattern);
+                //Join(false, ToolSheetResult, ToolSheets);
+                Join(false, toolSheetResult, toolSheetFiles);
                 //joining tool sheets
-                Join(true, NCfileResult, NCfiles);
+                //Join(true, NCfileResult, NCfiles);
+                Join(true, ncFileResult, ncFiles);
                 //Adding tool sheets into the resulting NC file
                 AddToolSheetToNCfile();
-            }
         }
 
         /// <summary>
@@ -220,13 +225,13 @@ namespace JoinNCFiles_DTVM
         private string Renumber(string input, ref int num)
         {
             string ret = input;
-            
+
             if (input.StartsWith(")"))
             {
                 ret = ("(" + num.ToString()).PadRight(1, ' ') + input;
                 num += 10;
             }
-            
+
             if (input.StartsWith(" N"))
             {
                 input = input.Replace("N", "N" + num.ToString()).PadRight(1, ' ');

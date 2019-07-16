@@ -11,5 +11,7 @@ namespace JoinNCFiles_DTVM.Joinners.MC3000.Abstraction
         string GetToolSheetPattern(string str);
         List<string> GetToolSheets(string str, string toolSheetPattern);
         List<string> GetNCFiles(string str, string ncFilePattern);
+        string GetNCfileResult(string ncFilePattern, List<string> NCfiles);
+        string GetToolSheetResult(string ncFileResult, string toolSheetPattern);
     }
 }

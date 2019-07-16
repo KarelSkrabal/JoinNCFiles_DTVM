@@ -69,7 +69,7 @@ namespace JoinNCFiles_DTVM
         /// </summary>
         public void GetDetails()
         {
-            string[] matches = _reader.Read();
+            string[] matches = _reader.Read;
             Postprocesor = matches[(int)PAMSCL_STRUCTURE.postprocesor];
             NCfile = matches[(int)PAMSCL_STRUCTURE.ncFile];
             Ppffile = matches[(int)PAMSCL_STRUCTURE.ppfFile];
