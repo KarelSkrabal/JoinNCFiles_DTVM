@@ -7,6 +7,24 @@ namespace JoinNCFiles_DTVM.Joinners.MC3000
 {
     public class MC3000FileNameManipulator : IMC3000FileNamesManipulator
     {
+        public string ToolSheetResult { get => _toolSheetResult;  }
+        private string _toolSheetResult;
+        public string NCfileResult { get => _nCfileResult; }
+        private string _nCfileResult;
+        public List<string> ncFileResults { get => _ncFileResults; }
+        private List<string> _ncFileResults;
+        public List<string> toolSheetResults { get => _toolSheetResults; }
+        private List<string> _toolSheetResults;
+
+        public void ManipulateFileNames(string lastGeneratedNCfile)
+        {            
+            var ncfiles = GetNCFiles(lastGeneratedNCfile, GetNCFilePattern(lastGeneratedNCfile));
+            var toolSheetFiles = GetToolSheets(lastGeneratedNCfile, GetToolSheetPattern(lastGeneratedNCfile));
+            var ncFileResult = GetNCfileResult(GetNCFilePattern(lastGeneratedNCfile), ncfiles);
+            var toolSheetResult = GetToolSheetResult(ncFileResult, GetToolSheetPattern(lastGeneratedNCfile));
+        }
+
+
         /// <summary>
         /// Returns file name without a suffix and file's extention
         /// </summary>
@@ -33,6 +51,9 @@ namespace JoinNCFiles_DTVM.Joinners.MC3000
                 if (Regex.Match(fileName, @"_{1}(\d+)$").Success)
                     NCfiles.Add(file);
             }
+
+            _ncFileResults = NCfiles;
+
             return NCfiles;
         }
         /// <summary>
@@ -71,6 +92,9 @@ namespace JoinNCFiles_DTVM.Joinners.MC3000
                 if (item.EndsWith(toolSheetPattern))
                     ToolSheets.Add(item);
             }
+
+            _toolSheetResults = ToolSheets;
+
             return ToolSheets;
         }
 
@@ -85,6 +109,9 @@ namespace JoinNCFiles_DTVM.Joinners.MC3000
             var folder = Path.GetDirectoryName(NCfiles[0]);
             var extension = Path.GetExtension(NCfiles[0]);
             var fileName = ncFilePattern.Substring(0, ncFilePattern.Length - 1);
+
+            _nCfileResult = folder + @"\" + fileName + extension;
+
             return folder + @"\" + fileName + extension;
         }
 
@@ -98,6 +125,9 @@ namespace JoinNCFiles_DTVM.Joinners.MC3000
         {
             var folder = Path.GetDirectoryName(ncFileResult);
             var fileName = Path.GetFileNameWithoutExtension(ncFileResult) + toolSheetPattern;
+
+            _toolSheetResult = folder + @"\" + fileName;
+
             return folder + @"\" + fileName;
         }
     }

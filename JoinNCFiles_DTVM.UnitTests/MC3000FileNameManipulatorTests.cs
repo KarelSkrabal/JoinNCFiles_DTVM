@@ -14,11 +14,9 @@ namespace JoinNCFiles_DTVM.UnitTests
     [TestClass]
     public class MC3000FileNameManipulatorTests
     {
-
         [TestMethod]
         public void MC3000FileNameManipulator_GetNCFilePattern()
-        {
-            //mc3000_sin_13r1_dt_v1-1-1.mcp,,,D:\Nexnet\Visual studio projects\JoinNCFiles_DTVM\JoinNCFiles_DTVM\Data\T1_1.nc,D:\Nexnet\Visual studio projects\JoinNCFiles_DTVM\JoinNCFiles_DTVM\Data\v1-8702_2.ppf
+        {           
             IMC3000FileNamesManipulator strManipulator = new MC3000FileNameManipulator();
 
             var result = strManipulator.GetNCFilePattern(@"d:\Nexnet\Visual studio projects\JoinNCFiles_DTVM\JoinNCFiles_DTVM\TestingData\T1_5.nc");

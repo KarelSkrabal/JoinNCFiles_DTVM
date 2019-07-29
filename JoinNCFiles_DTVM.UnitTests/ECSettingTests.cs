@@ -15,17 +15,6 @@ namespace JoinNCFiles_DTVM.UnitTests
     public class JoinNCFilesTests
     {
         [TestMethod]
-        public void TestMethod1()
-        {
-            Assembly thisAssembly = Assembly.GetExecutingAssembly();
-
-            var ahoj = thisAssembly.GetManifestResourceNames();
-
-            //var ec = ECsettings.Instance;
-            Assert.AreEqual(string.Empty, string.Empty);
-        }
-
-        [TestMethod]
         public void PamsclFilePathProvider_GetPamsclFilePath()
         {
             var testingResult = @"C:\Users\k.skrabal\AppData\Local\Temp\Planit\pamscl.dat";

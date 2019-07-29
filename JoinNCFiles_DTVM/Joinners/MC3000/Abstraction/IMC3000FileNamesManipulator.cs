@@ -7,6 +7,11 @@ namespace JoinNCFiles_DTVM.Joinners.MC3000.Abstraction
 {
     public interface IMC3000FileNamesManipulator
     {
+        string ToolSheetResult { get; }
+        string NCfileResult { get; }
+        List<string> ncFileResults { get; }
+        List<string> toolSheetResults { get; }
+        void ManipulateFileNames(string lastGeneratedNCfile);
         string GetNCFilePattern(string str);
         string GetToolSheetPattern(string str);
         List<string> GetToolSheets(string str, string toolSheetPattern);
