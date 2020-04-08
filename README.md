@@ -5,4 +5,4 @@ Při spojení obsahu jednotlivých souborů dojde k přečíslování řádků. 
 uloženy do stejné složky. Informace o postprocesoru a posledního generovaného NC výstupu jsou čteny ze souboru pamscl.dat příslušné
 verze Edgecam. Spojené soubory jsou vytvořeny do stejné složky jako je složka ze které jsou NC soubory čteny.
 
-Pro úspěšné fungování aplikace je nutné mít nainstalovaný Edgecam libovolné verze s platnou licencí, ve stejné složce jako je soubor JoinNCFiles.exe musí být také uložen soubor s nastavením pro daný postprocesor **MC3000SETTINGS.xml**.
+Pro úspěšné fungování aplikace je nutné mít nainstalovaný Edgecam libovolné verze s platnou licencí, ve stejné složce jako je soubor **JoinNCFiles.exe** musí být také uložen soubor s nastavením pro daný postprocesor **MC3000SETTINGS.xml**.
